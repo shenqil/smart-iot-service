@@ -1,0 +1,15 @@
+# Binaries
+/bin/
+/dist/
+
+# Go
+*.exe
+*.test
+*.out
+
+# Env
+.env
+
+/logs/
+
+configs/config.yaml

@@ -1,0 +1,55 @@
+# 忽略版本控制系统目录
+.git/
+.gitignore
+.gitmodules
+.gitattributes
+
+# 忽略 IDE 相关配置
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 忽略构建输出和二进制文件
+bin/
+dist/
+*.exe
+*.out
+gin-admin  # 忽略本地构建的二进制文件
+
+# 忽略测试相关文件
+coverage.txt
+*.test
+*.prof
+
+# 忽略依赖下载目录（Go 1.16+）
+vendor/
+
+# 忽略环境配置文件
+.env
+.env.local
+.env*.local
+
+# 忽略文档文件
+*.md
+LICENSE
+
+# 忽略日志文件
+*.log
+
+# 忽略 macOS 系统文件
+.DS_Store
+
+# 忽略 Linux 临时文件
+*.tmp
+*.temp
+
+# 忽略 Windows 相关文件
+Thumbs.db
+Desktop.ini
+
+# 忽略 CI/CD 配置文件
+.circleci/
+.travis.yml
+.github/
+.gitlab-ci.yml

@@ -1,0 +1,5777 @@
+basePath: /
+definitions:
+  dto.CameraConfig:
+    properties:
+      appKey:
+        type: string
+      channelNumber:
+        type: integer
+      secret:
+        type: string
+      serialNumber:
+        type: string
+      type:
+        type: string
+    type: object
+  dto.CompanyCreateRequest:
+    properties:
+      address:
+        maxLength: 200
+        type: string
+      code:
+        maxLength: 50
+        minLength: 2
+        type: string
+      contactEmail:
+        maxLength: 100
+        type: string
+      contactPerson:
+        maxLength: 50
+        type: string
+      contactPhone:
+        maxLength: 20
+        type: string
+      description:
+        maxLength: 500
+        type: string
+      expiredAt:
+        type: string
+      logo:
+        maxLength: 255
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      properties:
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/dto.CompanyStatus'
+        enum:
+        - 0
+        - 1
+    required:
+    - code
+    - name
+    type: object
+  dto.CompanyDeleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - ids
+    type: object
+  dto.CompanyResponse:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      contactEmail:
+        type: string
+      contactPerson:
+        type: string
+      contactPhone:
+        type: string
+      createdAt:
+        type: integer
+      description:
+        type: string
+      expiredAt:
+        type: integer
+      id:
+        type: integer
+      logo:
+        type: string
+      name:
+        type: string
+      properties:
+        type: string
+      status:
+        $ref: '#/definitions/dto.CompanyStatus'
+      updatedAt:
+        type: integer
+    type: object
+  dto.CompanyStatus:
+    enum:
+    - 0
+    - 1
+    format: int32
+    type: integer
+    x-enum-varnames:
+    - CompanyStatusDisabled
+    - CompanyStatusEnabled
+  dto.CompanyUpdateRequest:
+    properties:
+      address:
+        maxLength: 200
+        type: string
+      code:
+        maxLength: 50
+        minLength: 2
+        type: string
+      contactEmail:
+        maxLength: 100
+        type: string
+      contactPerson:
+        maxLength: 50
+        type: string
+      contactPhone:
+        maxLength: 20
+        type: string
+      description:
+        maxLength: 500
+        type: string
+      expiredAt:
+        type: string
+      logo:
+        maxLength: 255
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      properties:
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/dto.CompanyStatus'
+        enum:
+        - 0
+        - 1
+    type: object
+  dto.CompanyUserAddRequest:
+    properties:
+      role:
+        enum:
+        - Root
+        - SuperAdmin
+        - Admin
+        - Manager
+        - User
+        type: string
+      userId:
+        minimum: 1
+        type: integer
+    required:
+    - role
+    - userId
+    type: object
+  dto.CompanyUserBatchAddRequest:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/dto.CompanyUserAddRequest'
+        minItems: 1
+        type: array
+    required:
+    - users
+    type: object
+  dto.CompanyUserBatchDeleteRequest:
+    properties:
+      userIds:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - userIds
+    type: object
+  dto.CompanyUserBriefResponse:
+    properties:
+      avatar:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      nickname:
+        type: string
+      phone:
+        type: string
+      role:
+        description: 用户在该企业的角色
+        type: string
+      username:
+        type: string
+    type: object
+  dto.CompanyUserUpdateRoleRequest:
+    properties:
+      role:
+        enum:
+        - Root
+        - SuperAdmin
+        - Admin
+        - Manager
+        - User
+        type: string
+    required:
+    - role
+    type: object
+  dto.CompanyWithRoleResponse:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      contactEmail:
+        type: string
+      contactPerson:
+        type: string
+      contactPhone:
+        type: string
+      createdAt:
+        type: integer
+      description:
+        type: string
+      expiredAt:
+        type: integer
+      id:
+        type: integer
+      logo:
+        type: string
+      name:
+        type: string
+      properties:
+        type: string
+      role:
+        description: 用户在该公司的角色
+        type: string
+      status:
+        $ref: '#/definitions/dto.CompanyStatus'
+      updatedAt:
+        type: integer
+    type: object
+  dto.CurrentUserInfoResponse:
+    properties:
+      companies:
+        description: 管理的企业列表（包含角色）
+        items:
+          $ref: '#/definitions/dto.CompanyWithRoleResponse'
+        type: array
+      info:
+        allOf:
+        - $ref: '#/definitions/dto.UserResponse'
+        description: 当前用户信息
+    type: object
+  dto.DeviceAlarmBatchProcessRequest:
+    properties:
+      ids:
+        description: 告警ID列表，为空时一键处理所有
+        items:
+          type: integer
+        type: array
+      processRemark:
+        description: 处理备注
+        type: string
+      processorName:
+        description: 处理人姓名
+        type: string
+    required:
+    - processorName
+    type: object
+  dto.DeviceAlarmBatchProcessResponse:
+    properties:
+      processedCount:
+        type: integer
+    type: object
+  dto.DeviceAlarmResponse:
+    properties:
+      alarmLevel:
+        type: integer
+      alarmSubType:
+        type: string
+      alarmType:
+        type: string
+      createdAt:
+        type: integer
+      description:
+        type: string
+      deviceId:
+        type: string
+      deviceName:
+        type: string
+      enterpriseId:
+        type: string
+      id:
+        type: integer
+      isProcessed:
+        type: integer
+      processRemark:
+        type: string
+      processedAt:
+        type: string
+      processedBy:
+        type: integer
+      processorName:
+        type: string
+      threshold:
+        type: string
+      value:
+        type: string
+    type: object
+  dto.DeviceCompany:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  dto.DeviceCreateRequest:
+    properties:
+      address:
+        minimum: 1
+        type: integer
+      cameraConfig:
+        $ref: '#/definitions/dto.CameraConfig'
+      coverImage:
+        maxLength: 255
+        type: string
+      description:
+        type: string
+      deviceNum:
+        type: integer
+      deviceType:
+        type: string
+      isActive:
+        type: boolean
+      location:
+        $ref: '#/definitions/dto.DeviceLocation'
+      macAddress:
+        type: string
+      name:
+        maxLength: 100
+        type: string
+      readInterval:
+        minimum: 1
+        type: integer
+      relays:
+        items:
+          $ref: '#/definitions/dto.RelayConfig'
+        type: array
+      sensors:
+        items:
+          $ref: '#/definitions/dto.SensorConfig'
+        type: array
+      simCard:
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        - fault
+        type: string
+      waterFertilizerInfo:
+        $ref: '#/definitions/dto.DeviceWaterFertilizerInfo'
+    required:
+    - deviceNum
+    - deviceType
+    - relays
+    - sensors
+    type: object
+  dto.DeviceDeleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - ids
+    type: object
+  dto.DeviceLocation:
+    properties:
+      latitude:
+        type: number
+      longitude:
+        type: number
+    type: object
+  dto.DeviceRealTimeData:
+    properties:
+      relay_data:
+        additionalProperties:
+          $ref: '#/definitions/dto.RelayData'
+        type: object
+      sensor_data:
+        additionalProperties: true
+        type: object
+      timestamp:
+        description: 数据时间(秒级时间戳)
+        type: integer
+    type: object
+  dto.DeviceRelayRecordResponse:
+    properties:
+      channel:
+        description: 通道号(0-31)
+        type: integer
+      createdAt:
+        description: 创建时间(秒级时间戳)
+        type: integer
+      deviceSN:
+        description: 设备号
+        type: integer
+      duration:
+        description: 耗时(毫秒)
+        type: integer
+      id:
+        description: 记录ID
+        type: integer
+      operator:
+        description: 操作者
+        type: string
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 操作状态
+        type: string
+      updatedAt:
+        description: 更新时间(秒级时间戳)
+        type: integer
+    type: object
+  dto.DeviceResponse:
+    properties:
+      address:
+        type: integer
+      cameraConfig:
+        $ref: '#/definitions/dto.CameraConfig'
+      company:
+        $ref: '#/definitions/dto.DeviceCompany'
+      coverImage:
+        type: string
+      createdAt:
+        type: integer
+      creatorId:
+        type: integer
+      description:
+        type: string
+      deviceNum:
+        type: integer
+      deviceType:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      location:
+        $ref: '#/definitions/dto.DeviceLocation'
+      macAddress:
+        type: string
+      name:
+        type: string
+      readInterval:
+        type: integer
+      relays:
+        items:
+          $ref: '#/definitions/dto.RelayConfig'
+        type: array
+      sensors:
+        items:
+          $ref: '#/definitions/dto.SensorConfig'
+        type: array
+      simCard:
+        type: string
+      status:
+        type: string
+      updatedAt:
+        type: integer
+      waterFertilizerInfo:
+        $ref: '#/definitions/dto.DeviceWaterFertilizerInfo'
+    type: object
+  dto.DeviceScreenshotCreateRequest:
+    properties:
+      captureTime:
+        type: integer
+      deviceSn:
+        type: integer
+      extra:
+        items:
+          type: integer
+        type: array
+      imageUrl:
+        type: string
+    required:
+    - captureTime
+    - deviceSn
+    - imageUrl
+    type: object
+  dto.DeviceScreenshotDeleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - ids
+    type: object
+  dto.DeviceScreenshotResponse:
+    properties:
+      captureTime:
+        type: integer
+      createdAt:
+        type: integer
+      deviceSn:
+        type: integer
+      extra:
+        items:
+          type: integer
+        type: array
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      updatedAt:
+        type: integer
+    type: object
+  dto.DeviceScreenshotUpdateRequest:
+    properties:
+      captureTime:
+        type: integer
+      extra:
+        items:
+          type: integer
+        type: array
+      imageUrl:
+        type: string
+    type: object
+  dto.DeviceSimulatorBatchDeleteRequest:
+    type: object
+  dto.DeviceSimulatorCreateRequest:
+    properties:
+      deviceSN:
+        example: SN123456789
+        maxLength: 100
+        minLength: 1
+        type: string
+    required:
+    - deviceSN
+    type: object
+  dto.DeviceSimulatorResponse:
+    properties:
+      createdAt:
+        example: "2024-01-01T00:00:00Z"
+        type: string
+      deviceSN:
+        example: SN123456789
+        type: string
+      id:
+        example: 1
+        type: integer
+      updatedAt:
+        example: "2024-01-01T00:00:00Z"
+        type: string
+    type: object
+  dto.DeviceTypeCreateRequest:
+    properties:
+      description:
+        maxLength: 500
+        type: string
+      icon:
+        maxLength: 255
+        type: string
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      schema:
+        items:
+          type: integer
+        type: array
+      type:
+        maxLength: 50
+        minLength: 1
+        type: string
+    required:
+    - name
+    - schema
+    - type
+    type: object
+  dto.DeviceTypeDeleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - ids
+    type: object
+  dto.DeviceTypeResponse:
+    properties:
+      createdAt:
+        description: 秒级时间戳
+        type: integer
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      schema:
+        items:
+          type: integer
+        type: array
+      type:
+        type: string
+      updatedAt:
+        description: 秒级时间戳
+        type: integer
+    type: object
+  dto.DeviceTypeSimpleResponse:
+    properties:
+      createdAt:
+        type: integer
+      description:
+        type: string
+      icon:
+        type: string
+      name:
+        type: string
+      schema:
+        items:
+          type: integer
+        type: array
+      type:
+        type: string
+      updatedAt:
+        type: integer
+    type: object
+  dto.DeviceTypeUpdateRequest:
+    properties:
+      description:
+        maxLength: 500
+        type: string
+      icon:
+        maxLength: 255
+        type: string
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      schema:
+        items:
+          type: integer
+        type: array
+      type:
+        maxLength: 50
+        minLength: 1
+        type: string
+    type: object
+  dto.DeviceUpdateRequest:
+    properties:
+      address:
+        minimum: 1
+        type: integer
+      cameraConfig:
+        $ref: '#/definitions/dto.CameraConfig'
+      coverImage:
+        maxLength: 255
+        type: string
+      description:
+        type: string
+      deviceType:
+        type: string
+      isActive:
+        type: boolean
+      location:
+        $ref: '#/definitions/dto.DeviceLocation'
+      macAddress:
+        type: string
+      name:
+        maxLength: 100
+        type: string
+      readInterval:
+        minimum: 1
+        type: integer
+      relays:
+        items:
+          $ref: '#/definitions/dto.RelayConfig'
+        type: array
+      sensors:
+        items:
+          $ref: '#/definitions/dto.SensorConfig'
+        type: array
+      simCard:
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        - fault
+        type: string
+      waterFertilizerInfo:
+        $ref: '#/definitions/dto.DeviceWaterFertilizerInfo'
+    type: object
+  dto.DeviceWaterFertilizerInfo:
+    properties:
+      id:
+        type: integer
+      info:
+        type: string
+      name:
+        type: string
+    type: object
+  dto.GetWaterFertilizerInfoResponse:
+    properties:
+      waterFertilizerInfo:
+        $ref: '#/definitions/dto.DeviceWaterFertilizerInfo'
+    type: object
+  dto.LoginRequest:
+    properties:
+      password:
+        description: 密码
+        type: string
+      username:
+        description: 用户名
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.LoginResponse:
+    properties:
+      accessToken:
+        description: JWT Token
+        type: string
+      companies:
+        description: 公司列表（包含角色）
+        items:
+          $ref: '#/definitions/dto.CompanyWithRoleResponse'
+        type: array
+      info:
+        allOf:
+        - $ref: '#/definitions/dto.UserResponse'
+        description: 当前用户信息
+    type: object
+  dto.MiniProgramCompleteInfoRequest:
+    properties:
+      code:
+        description: 微信小程序登录code，通过wx.login()获取（用于获取session_key）
+        type: string
+      encryptedData:
+        description: 加密的用户信息（可选），通过wx.getUserProfile()获取
+        type: string
+      iv:
+        description: 初始向量（可选），用于解密用户信息
+        type: string
+      phoneEncryptedData:
+        description: 加密的手机号信息（可选），通过getPhoneNumber获取
+        type: string
+      phoneIV:
+        description: 手机号解密初始向量（可选），通过getPhoneNumber获取
+        type: string
+    required:
+    - code
+    type: object
+  dto.MiniProgramLoginRequest:
+    properties:
+      code:
+        description: 微信小程序登录code，通过wx.login()获取
+        type: string
+    required:
+    - code
+    type: object
+  dto.MiniProgramLoginResponse:
+    properties:
+      accessToken:
+        description: JWT Token
+        type: string
+      companies:
+        description: 公司列表（包含角色）
+        items:
+          $ref: '#/definitions/dto.CompanyWithRoleResponse'
+        type: array
+      info:
+        allOf:
+        - $ref: '#/definitions/dto.UserResponse'
+        description: 当前用户信息
+      needCompleteInfo:
+        description: 是否需要补充信息（昵称、头像、手机号）
+        type: boolean
+    type: object
+  dto.MiniProgramMenuCreateRequest:
+    properties:
+      code:
+        example: menu_code
+        maxLength: 50
+        minLength: 1
+        type: string
+      image:
+        example: https://example.com/image.png
+        maxLength: 255
+        type: string
+      properties:
+        items:
+          type: integer
+        type: array
+      sort:
+        example: 0
+        type: integer
+      status:
+        allOf:
+        - $ref: '#/definitions/dto.MiniProgramMenuStatus'
+        enum:
+        - 0
+        - 1
+        example: 1
+      subTitle:
+        example: 副标题
+        maxLength: 200
+        type: string
+      title:
+        example: 功能标题
+        maxLength: 100
+        minLength: 1
+        type: string
+    required:
+    - code
+    - title
+    type: object
+  dto.MiniProgramMenuDeleteRequest:
+    type: object
+  dto.MiniProgramMenuResponse:
+    properties:
+      code:
+        example: menu_code
+        type: string
+      createdAt:
+        description: 秒级时间戳
+        example: 1640995200
+        type: integer
+      id:
+        example: 1
+        type: integer
+      image:
+        example: https://example.com/image.png
+        type: string
+      properties:
+        items:
+          type: integer
+        type: array
+      sort:
+        example: 0
+        type: integer
+      status:
+        allOf:
+        - $ref: '#/definitions/dto.MiniProgramMenuStatus'
+        example: 1
+      subTitle:
+        example: 副标题
+        type: string
+      title:
+        example: 功能标题
+        type: string
+      updatedAt:
+        description: 秒级时间戳
+        example: 1640995200
+        type: integer
+    type: object
+  dto.MiniProgramMenuStatus:
+    enum:
+    - 0
+    - 1
+    format: int32
+    type: integer
+    x-enum-comments:
+      MiniProgramMenuStatusDisabled: 禁用
+      MiniProgramMenuStatusEnabled: 启用
+    x-enum-descriptions:
+    - 禁用
+    - 启用
+    x-enum-varnames:
+    - MiniProgramMenuStatusDisabled
+    - MiniProgramMenuStatusEnabled
+  dto.MiniProgramMenuUpdateRequest:
+    properties:
+      code:
+        example: menu_code
+        maxLength: 50
+        minLength: 1
+        type: string
+      image:
+        example: https://example.com/image.png
+        maxLength: 255
+        type: string
+      properties:
+        items:
+          type: integer
+        type: array
+      sort:
+        example: 0
+        type: integer
+      status:
+        allOf:
+        - $ref: '#/definitions/dto.MiniProgramMenuStatus'
+        enum:
+        - 0
+        - 1
+        example: 1
+      subTitle:
+        example: 副标题
+        maxLength: 200
+        type: string
+      title:
+        example: 功能标题
+        maxLength: 100
+        minLength: 1
+        type: string
+    type: object
+  dto.MyDeviceResponse:
+    properties:
+      address:
+        type: integer
+      cameraConfig:
+        $ref: '#/definitions/dto.CameraConfig'
+      coverImage:
+        type: string
+      createdAt:
+        type: integer
+      description:
+        type: string
+      deviceNum:
+        type: integer
+      deviceType:
+        type: string
+      location:
+        $ref: '#/definitions/dto.DeviceLocation'
+      macAddress:
+        type: string
+      name:
+        type: string
+      readInterval:
+        type: integer
+      relays:
+        items:
+          $ref: '#/definitions/dto.RelayConfig'
+        type: array
+      sensors:
+        items:
+          $ref: '#/definitions/dto.SensorConfig'
+        type: array
+      simCard:
+        type: string
+      status:
+        type: string
+      updatedAt:
+        type: integer
+      waterFertilizerInfo:
+        $ref: '#/definitions/dto.DeviceWaterFertilizerInfo'
+    type: object
+  dto.MyDeviceTypeStatsResponse:
+    properties:
+      count:
+        description: 设备数量
+        type: integer
+      deviceType:
+        description: 设备类型
+        type: string
+    type: object
+  dto.MySiteSimpleResponse:
+    properties:
+      address:
+        type: string
+      city:
+        type: string
+      code:
+        type: string
+      coverImage:
+        type: string
+      createdAt:
+        type: integer
+      description:
+        type: string
+      district:
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      postalCode:
+        type: string
+      properties:
+        items:
+          type: integer
+        type: array
+      province:
+        type: string
+      siteId:
+        type: integer
+      title:
+        type: string
+      type:
+        type: string
+      updatedAt:
+        type: integer
+    type: object
+  dto.PaginationResponse:
+    properties:
+      records:
+        description: 数据列表
+      totalCount:
+        description: 总记录数
+        type: integer
+    type: object
+  dto.PolicyTokenResponse:
+    properties:
+      dir:
+        type: string
+      host:
+        type: string
+      ossAccessKeyId:
+        type: string
+      policy:
+        type: string
+      signature:
+        type: string
+    type: object
+  dto.QRCodeStatus:
+    enum:
+    - waiting
+    - scanned
+    - confirmed
+    - cancelled
+    - expired
+    type: string
+    x-enum-comments:
+      QRCodeStatusCancelled: 已取消
+      QRCodeStatusConfirmed: 已确认，可以获取token
+      QRCodeStatusExpired: 已过期
+      QRCodeStatusScanned: 已扫码，等待确认
+      QRCodeStatusWaiting: 等待扫码
+    x-enum-descriptions:
+    - 等待扫码
+    - 已扫码，等待确认
+    - 已确认，可以获取token
+    - 已取消
+    - 已过期
+    x-enum-varnames:
+    - QRCodeStatusWaiting
+    - QRCodeStatusScanned
+    - QRCodeStatusConfirmed
+    - QRCodeStatusCancelled
+    - QRCodeStatusExpired
+  dto.RelayConfig:
+    properties:
+      channelNum:
+        type: integer
+      displayName:
+        type: string
+      standardId:
+        type: integer
+      standardName:
+        type: string
+      url:
+        type: string
+    required:
+    - channelNum
+    type: object
+  dto.RelayData:
+    properties:
+      timestamp:
+        description: 数据时间(秒级时间戳)
+        type: integer
+      value:
+        type: integer
+    type: object
+  dto.RelaySwitchRequest:
+    properties:
+      deviceSN:
+        description: 设备序列号
+        type: string
+      isOpen:
+        description: true:开启, false:关闭
+        type: boolean
+      operator:
+        description: 操作者
+        type: string
+      relayIndex:
+        description: 继电器索引(0-31)
+        type: integer
+    type: object
+  dto.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  dto.SensorAlertConfig:
+    properties:
+      alertType:
+        description: 预警类型：greater（大于）、less（小于）、equal（等于）、range（范围）
+        enum:
+        - greater
+        - less
+        - equal
+        - range
+        type: string
+      enabled:
+        description: 是否启用预警
+        type: boolean
+      maxValue:
+        description: 范围预警的最大值（用于 range 类型）
+        type: number
+      minValue:
+        description: 范围预警的最小值（用于 range 类型）
+        type: number
+      repeatAlert:
+        description: 是否启用重复预警（避免频繁报警）
+        type: boolean
+      repeatInterval:
+        description: 重复预警间隔（秒）
+        type: integer
+      threshold:
+        description: 预警阈值（用于 greater、less、equal 类型）
+        type: number
+    type: object
+  dto.SensorComparisonResult:
+    properties:
+      compareData:
+        description: 对比周期数据
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      currentData:
+        description: 当前周期数据
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+    type: object
+  dto.SensorConfig:
+    properties:
+      alertConfigs:
+        description: 预警配置数组，可选
+        items:
+          $ref: '#/definitions/dto.SensorAlertConfig'
+        type: array
+      channelNum:
+        type: integer
+      correction:
+        allOf:
+        - $ref: '#/definitions/dto.SensorCorrection'
+        description: 纠正配置，可选
+      displayName:
+        type: string
+      maxValue:
+        type: number
+      minValue:
+        type: number
+      resolution:
+        type: number
+      standardId:
+        type: integer
+      standardName:
+        type: string
+      unit:
+        type: string
+      url:
+        type: string
+    required:
+    - channelNum
+    type: object
+  dto.SensorCorrection:
+    properties:
+      coefficientValue:
+        description: 系数模式下的系数值
+        type: number
+      customValue:
+        description: 自定义模式下的自定义值
+        type: number
+      errorValue:
+        description: 误差模式下的误差值
+        type: number
+      floatValue:
+        description: 浮动值，用于所有模式的浮动调整
+        type: number
+      mode:
+        description: 模式：coefficient（系数）、custom（自定义）
+        type: string
+    type: object
+  dto.SiteCompany:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  dto.SiteCreateRequest:
+    properties:
+      address:
+        maxLength: 200
+        type: string
+      city:
+        maxLength: 50
+        type: string
+      code:
+        maxLength: 50
+        type: string
+      coverImage:
+        maxLength: 255
+        type: string
+      description:
+        maxLength: 500
+        type: string
+      district:
+        maxLength: 50
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        maxLength: 100
+        type: string
+      postalCode:
+        maxLength: 20
+        type: string
+      properties:
+        items:
+          type: integer
+        type: array
+      province:
+        maxLength: 50
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        - under_construction
+        type: string
+      title:
+        maxLength: 100
+        type: string
+      type:
+        maxLength: 50
+        type: string
+    required:
+    - code
+    - name
+    - properties
+    - type
+    type: object
+  dto.SiteDeleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - ids
+    type: object
+  dto.SiteDeviceAssignRequest:
+    properties:
+      deviceIds:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+      siteId:
+        type: integer
+    required:
+    - deviceIds
+    - siteId
+    type: object
+  dto.SiteDeviceRemoveRequest:
+    properties:
+      deviceIds:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+      siteId:
+        type: integer
+    required:
+    - deviceIds
+    - siteId
+    type: object
+  dto.SiteResponse:
+    properties:
+      address:
+        type: string
+      city:
+        type: string
+      code:
+        type: string
+      company:
+        $ref: '#/definitions/dto.SiteCompany'
+      coverImage:
+        type: string
+      createdAt:
+        type: integer
+      description:
+        type: string
+      district:
+        type: string
+      id:
+        type: integer
+      images:
+        items:
+          type: string
+        type: array
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      postalCode:
+        type: string
+      properties:
+        items:
+          type: integer
+        type: array
+      province:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      updatedAt:
+        type: integer
+    type: object
+  dto.SiteUpdateRequest:
+    properties:
+      address:
+        maxLength: 200
+        type: string
+      city:
+        maxLength: 50
+        type: string
+      coverImage:
+        maxLength: 255
+        type: string
+      description:
+        maxLength: 500
+        type: string
+      district:
+        maxLength: 50
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        maxLength: 100
+        type: string
+      postalCode:
+        maxLength: 20
+        type: string
+      properties:
+        items:
+          type: integer
+        type: array
+      province:
+        maxLength: 50
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        - under_construction
+        type: string
+      title:
+        maxLength: 100
+        type: string
+      type:
+        maxLength: 50
+        type: string
+    type: object
+  dto.SiteUserAddRequest:
+    properties:
+      userIds:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - userIds
+    type: object
+  dto.SiteUserRemoveRequest:
+    properties:
+      userIds:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - userIds
+    type: object
+  dto.SiteUserResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      nickname:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.StandardRelayCreateRequest:
+    properties:
+      name:
+        example: 继电器名称
+        maxLength: 100
+        minLength: 1
+        type: string
+      url:
+        example: http://example.com
+        maxLength: 255
+        type: string
+    required:
+    - name
+    type: object
+  dto.StandardRelayDeleteRequest:
+    type: object
+  dto.StandardRelayResponse:
+    properties:
+      createdAt:
+        description: 秒级时间戳
+        example: 1640995200
+        type: integer
+      id:
+        example: 1
+        type: integer
+      name:
+        example: 继电器名称
+        type: string
+      updatedAt:
+        description: 秒级时间戳
+        example: 1640995200
+        type: integer
+      url:
+        example: http://example.com
+        type: string
+    type: object
+  dto.StandardRelayUpdateRequest:
+    properties:
+      name:
+        example: 继电器名称
+        maxLength: 100
+        minLength: 1
+        type: string
+      url:
+        example: http://example.com
+        maxLength: 255
+        type: string
+    type: object
+  dto.StandardSensorCreateRequest:
+    properties:
+      maxValue:
+        type: number
+      minValue:
+        type: number
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      resolution:
+        type: number
+      unit:
+        maxLength: 20
+        type: string
+      url:
+        maxLength: 255
+        type: string
+    required:
+    - name
+    type: object
+  dto.StandardSensorDeleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - ids
+    type: object
+  dto.StandardSensorResponse:
+    properties:
+      createdAt:
+        type: integer
+      id:
+        type: integer
+      maxValue:
+        type: number
+      minValue:
+        type: number
+      name:
+        type: string
+      resolution:
+        type: number
+      unit:
+        type: string
+      updatedAt:
+        type: integer
+      url:
+        type: string
+    type: object
+  dto.StandardSensorUpdateRequest:
+    properties:
+      maxValue:
+        type: number
+      minValue:
+        type: number
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      resolution:
+        type: number
+      unit:
+        maxLength: 20
+        type: string
+      url:
+        maxLength: 255
+        type: string
+    type: object
+  dto.TencentRealtime:
+    properties:
+      city:
+        description: 城市
+        type: string
+      district:
+        description: 区县
+        type: string
+      infos:
+        description: 详细信息
+        properties:
+          humidity:
+            description: 湿度(%)
+            type: integer
+          temperature:
+            description: 温度(℃)
+            type: integer
+          weather:
+            description: 天气状况
+            type: string
+          wind_direction:
+            description: 风向
+            type: string
+          wind_power:
+            description: 风力
+            type: string
+        type: object
+      province:
+        description: 省份
+        type: string
+      update_time:
+        description: 更新时间
+        type: string
+    type: object
+  dto.UpdateBasicInfoRequest:
+    properties:
+      address:
+        minimum: 1
+        type: integer
+      coverImage:
+        maxLength: 255
+        type: string
+      description:
+        type: string
+      deviceType:
+        type: string
+      isActive:
+        type: boolean
+      location:
+        $ref: '#/definitions/dto.DeviceLocation'
+      macAddress:
+        type: string
+      name:
+        maxLength: 100
+        type: string
+      readInterval:
+        minimum: 1
+        type: integer
+      simCard:
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        - fault
+        type: string
+    type: object
+  dto.UpdateCameraConfigRequest:
+    properties:
+      cameraConfig:
+        $ref: '#/definitions/dto.CameraConfig'
+    type: object
+  dto.UpdateLocationRequest:
+    properties:
+      location:
+        $ref: '#/definitions/dto.DeviceLocation'
+    type: object
+  dto.UpdateRelaysRequest:
+    properties:
+      relays:
+        items:
+          $ref: '#/definitions/dto.RelayConfig'
+        type: array
+    required:
+    - relays
+    type: object
+  dto.UpdateSensorsRequest:
+    properties:
+      sensors:
+        items:
+          $ref: '#/definitions/dto.SensorConfig'
+        type: array
+    required:
+    - sensors
+    type: object
+  dto.UpdateWaterFertilizerInfoRequest:
+    properties:
+      waterFertilizerInfo:
+        $ref: '#/definitions/dto.DeviceWaterFertilizerInfo'
+    type: object
+  dto.UserCreateRequest:
+    properties:
+      age:
+        maximum: 150
+        minimum: 0
+        type: integer
+      avatar:
+        maxLength: 255
+        type: string
+      birthday:
+        type: string
+      description:
+        maxLength: 255
+        type: string
+      email:
+        maxLength: 100
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/dto.UserGender'
+        enum:
+        - male
+        - female
+        - unknown
+      nickname:
+        maxLength: 50
+        type: string
+      password:
+        maxLength: 255
+        minLength: 6
+        type: string
+      phone:
+        type: string
+      role:
+        enum:
+        - Root
+        - SuperAdmin
+        - Admin
+        - Manager
+        - User
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/dto.UserStatus'
+        enum:
+        - 0
+        - 1
+      username:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.UserDeleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - ids
+    type: object
+  dto.UserGender:
+    enum:
+    - male
+    - female
+    - unknown
+    type: string
+    x-enum-varnames:
+    - UserGenderMale
+    - UserGenderFemale
+    - UserGenderUnknown
+  dto.UserPasswordUpdateRequest:
+    properties:
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    type: object
+  dto.UserProfileUpdateRequest:
+    properties:
+      age:
+        maximum: 150
+        minimum: 0
+        type: integer
+      avatar:
+        maxLength: 255
+        type: string
+      birthday:
+        type: string
+      description:
+        maxLength: 255
+        type: string
+      email:
+        maxLength: 100
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/dto.UserGender'
+        enum:
+        - male
+        - female
+        - unknown
+      nickname:
+        maxLength: 50
+        type: string
+      phone:
+        type: string
+    type: object
+  dto.UserResponse:
+    properties:
+      age:
+        type: integer
+      avatar:
+        type: string
+      birthday:
+        description: datetime=2006-01-02
+        type: string
+      createdAt:
+        type: integer
+      description:
+        type: string
+      email:
+        type: string
+      gender:
+        $ref: '#/definitions/dto.UserGender'
+      id:
+        type: integer
+      lastLoginAt:
+        type: integer
+      lastLoginIP:
+        type: string
+      nickname:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      status:
+        $ref: '#/definitions/dto.UserStatus'
+      updatedAt:
+        type: integer
+      username:
+        type: string
+    type: object
+  dto.UserStatus:
+    enum:
+    - 0
+    - 1
+    format: int32
+    type: integer
+    x-enum-varnames:
+    - UserStatusDisabled
+    - UserStatusEnabled
+  dto.UserUpdateRequest:
+    properties:
+      age:
+        maximum: 150
+        minimum: 0
+        type: integer
+      avatar:
+        maxLength: 255
+        type: string
+      birthday:
+        type: string
+      description:
+        maxLength: 255
+        type: string
+      email:
+        maxLength: 100
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/dto.UserGender'
+        enum:
+        - male
+        - female
+        - unknown
+      nickname:
+        maxLength: 50
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      role:
+        enum:
+        - Root
+        - SuperAdmin
+        - Admin
+        - Manager
+        - User
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/dto.UserStatus'
+        enum:
+        - 0
+        - 1
+      username:
+        maxLength: 50
+        minLength: 3
+        type: string
+    type: object
+  dto.WaterFertilizerTemplateCreateRequest:
+    properties:
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      template:
+        type: string
+    required:
+    - name
+    - template
+    type: object
+  dto.WaterFertilizerTemplateDeleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+    required:
+    - ids
+    type: object
+  dto.WaterFertilizerTemplateResponse:
+    properties:
+      createdAt:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      template:
+        type: string
+      updatedAt:
+        type: integer
+    type: object
+  dto.WaterFertilizerTemplateUpdateRequest:
+    properties:
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      template:
+        type: string
+    type: object
+  dto.WechatQRCodeResponse:
+    properties:
+      expiresIn:
+        description: 过期时间（秒）
+        type: integer
+      qrCodeUrl:
+        description: 二维码URL
+        type: string
+      token:
+        description: 临时token，用于轮询查询扫码状态
+        type: string
+    type: object
+  dto.WechatQRCodeStatusRequest:
+    properties:
+      token:
+        description: 临时token
+        type: string
+    required:
+    - token
+    type: object
+  dto.WechatQRCodeStatusResponse:
+    properties:
+      accessToken:
+        description: JWT Token（仅在status为confirmed时返回）
+        type: string
+      companies:
+        description: 公司列表（包含角色，仅在status为confirmed时返回）
+        items:
+          $ref: '#/definitions/dto.CompanyWithRoleResponse'
+        type: array
+      info:
+        allOf:
+        - $ref: '#/definitions/dto.UserResponse'
+        description: 当前用户信息（仅在status为confirmed时返回）
+      status:
+        allOf:
+        - $ref: '#/definitions/dto.QRCodeStatus'
+        description: 扫码状态
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: 基于 Gin 和 RBAC 的权限管理系统 API 文档。
+  termsOfService: http://swagger.io/terms/
+  title: RBAC 系统 API 文档
+  version: "1.0"
+paths:
+  /api/v1/admin-auth/companies:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CompanyDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除公司
+      tags:
+      - 公司管理
+    get:
+      parameters:
+      - description: 综合查询条件
+        in: query
+        name: q
+        type: string
+      - description: 公司名称
+        in: query
+        name: name
+        type: string
+      - description: 公司编码
+        in: query
+        name: code
+        type: string
+      - description: 状态(0:禁用,1:启用)
+        in: query
+        name: status
+        type: integer
+      - description: 负责人ID
+        in: query
+        name: managerId
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.CompanyResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取公司列表
+      tags:
+      - 公司管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CompanyCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.CompanyResponse'
+              type: object
+      summary: 创建公司
+      tags:
+      - 公司管理
+  /api/v1/admin-auth/companies/{id}:
+    delete:
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除公司
+      tags:
+      - 公司管理
+    get:
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.CompanyResponse'
+              type: object
+      summary: 获取公司详情
+      tags:
+      - 公司管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CompanyUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新公司
+      tags:
+      - 公司管理
+  /api/v1/admin-auth/companies/{id}/users:
+    get:
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 综合查询条件（模糊匹配用户名、手机号、邮箱）
+        in: query
+        name: q
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.CompanyUserBriefResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取企业用户列表
+      tags:
+      - 公司管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 添加用户参数（支持批量）
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CompanyUserBatchAddRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 为企业添加用户（支持批量）
+      tags:
+      - 公司管理
+  /api/v1/admin-auth/companies/{id}/users/{userId}:
+    delete:
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 用户ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除企业用户关联
+      tags:
+      - 公司管理
+  /api/v1/admin-auth/companies/{id}/users/{userId}/role:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 用户ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: 更新角色参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CompanyUserUpdateRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新企业用户角色
+      tags:
+      - 公司管理
+  /api/v1/admin-auth/companies/{id}/users/batch:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 删除用户ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CompanyUserBatchDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除企业用户
+      tags:
+      - 公司管理
+  /api/v1/admin-auth/companies/{id}/users/not-in:
+    get:
+      parameters:
+      - description: 公司ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 综合查询条件（模糊匹配用户名、手机号、邮箱）
+        in: query
+        name: q
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.CompanyUserBriefResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取企业不存在用户列表
+      tags:
+      - 公司管理
+  /api/v1/admin-auth/deploy:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 上传 dist 压缩包，解压到部署目录
+      parameters:
+      - description: 压缩包文件（支持 zip, tar.gz）
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 部署成功
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: 内部服务器错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 部署 dist 压缩包
+      tags:
+      - 部署管理
+  /api/v1/admin-auth/device-simulators:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceSimulatorBatchDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除设备模拟器
+      tags:
+      - 设备模拟器管理
+    get:
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页大小
+        in: query
+        name: pageSize
+        type: integer
+      - description: 设备SN号模糊搜索
+        in: query
+        name: deviceSN
+        type: string
+      - description: 综合查询条件
+        in: query
+        name: q
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.DeviceSimulatorResponse'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 分页查询设备模拟器列表
+      tags:
+      - 设备模拟器管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceSimulatorCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceSimulatorResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 创建设备模拟器
+      tags:
+      - 设备模拟器管理
+  /api/v1/admin-auth/device-types:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceTypeDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 批量删除设备类型
+      tags:
+      - 设备类型管理
+    get:
+      parameters:
+      - description: 名称模糊匹配
+        in: query
+        name: name
+        type: string
+      - description: 全部搜索参数
+        in: query
+        name: q
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.DeviceTypeResponse'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 分页查询设备类型列表
+      tags:
+      - 设备类型管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceTypeCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceTypeResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建设备类型
+      tags:
+      - 设备类型管理
+  /api/v1/admin-auth/device-types/{id}:
+    delete:
+      parameters:
+      - description: 设备类型ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除设备类型
+      tags:
+      - 设备类型管理
+    get:
+      parameters:
+      - description: 设备类型ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceTypeResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取设备类型详情
+      tags:
+      - 设备类型管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 设备类型ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceTypeUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新设备类型
+      tags:
+      - 设备类型管理
+  /api/v1/admin-auth/device-types/type/{type}:
+    get:
+      parameters:
+      - description: 设备类型标识
+        in: path
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceTypeResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 根据类型标识获取设备类型详情
+      tags:
+      - 设备类型管理
+  /api/v1/admin-auth/miniprogram-menus:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.MiniProgramMenuDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除小程序功能栏配置
+      tags:
+      - 小程序功能栏管理
+    get:
+      parameters:
+      - description: 综合查询关键词
+        in: query
+        name: q
+        type: string
+      - description: 标题
+        in: query
+        name: title
+        type: string
+      - description: 功能代码
+        in: query
+        name: code
+        type: string
+      - description: 状态(0:禁用,1:启用)
+        in: query
+        name: status
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.MiniProgramMenuResponse'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 获取小程序功能栏配置列表
+      tags:
+      - 小程序功能栏管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.MiniProgramMenuCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.MiniProgramMenuResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 创建小程序功能栏配置
+      tags:
+      - 小程序功能栏管理
+  /api/v1/admin-auth/miniprogram-menus/{id}:
+    delete:
+      parameters:
+      - description: 配置ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除小程序功能栏配置
+      tags:
+      - 小程序功能栏管理
+    get:
+      parameters:
+      - description: 配置ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.MiniProgramMenuResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 获取小程序功能栏配置详情
+      tags:
+      - 小程序功能栏管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 配置ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.MiniProgramMenuUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新小程序功能栏配置
+      tags:
+      - 小程序功能栏管理
+  /api/v1/admin-auth/standard-relays:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StandardRelayDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除标准继电器
+      tags:
+      - 标准继电器管理
+    get:
+      parameters:
+      - description: 名称搜索参数
+        in: query
+        name: name
+        type: string
+      - description: 全部搜索参数
+        in: query
+        name: q
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.StandardRelayResponse'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 获取标准继电器列表
+      tags:
+      - 标准继电器管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StandardRelayCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.StandardRelayResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 创建标准继电器
+      tags:
+      - 标准继电器管理
+  /api/v1/admin-auth/standard-relays/{id}:
+    delete:
+      parameters:
+      - description: 标准继电器ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除标准继电器
+      tags:
+      - 标准继电器管理
+    get:
+      parameters:
+      - description: 标准继电器ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.StandardRelayResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 获取标准继电器详情
+      tags:
+      - 标准继电器管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 标准继电器ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StandardRelayUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新标准继电器
+      tags:
+      - 标准继电器管理
+  /api/v1/admin-auth/standard-sensors:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StandardSensorDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除传感器
+      tags:
+      - 标准传感器管理
+    get:
+      parameters:
+      - description: 名称搜索参数
+        in: query
+        name: name
+        type: string
+      - description: 全部搜索参数
+        in: query
+        name: q
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.StandardSensorResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取标准传感器列表（带分页）
+      tags:
+      - 标准传感器管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StandardSensorCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.StandardSensorResponse'
+              type: object
+      summary: 创建标准传感器
+      tags:
+      - 标准传感器管理
+  /api/v1/admin-auth/standard-sensors/{id}:
+    delete:
+      parameters:
+      - description: 传感器ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除传感器
+      tags:
+      - 标准传感器管理
+    get:
+      parameters:
+      - description: 传感器ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.StandardSensorResponse'
+              type: object
+      summary: 获取传感器详情
+      tags:
+      - 标准传感器管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 传感器ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StandardSensorUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新传感器
+      tags:
+      - 标准传感器管理
+  /api/v1/admin-auth/users:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表（不需要CompanyID）
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 管理员批量删除用户
+      tags:
+      - 管理员-用户管理
+    get:
+      parameters:
+      - description: 综合查询条件
+        in: query
+        name: q
+        type: string
+      - description: 用户名
+        in: query
+        name: username
+        type: string
+      - description: 昵称
+        in: query
+        name: nickname
+        type: string
+      - description: 邮箱
+        in: query
+        name: email
+        type: string
+      - description: 手机号
+        in: query
+        name: phone
+        type: string
+      - description: 状态(0:禁用,1:启用)
+        in: query
+        name: status
+        type: integer
+      - description: 性别(male/female/unknown)
+        in: query
+        name: gender
+        type: string
+      - description: 最小年龄
+        in: query
+        name: minAge
+        type: integer
+      - description: 最大年龄
+        in: query
+        name: maxAge
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.UserResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 管理员获取用户列表
+      tags:
+      - 管理员-用户管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数（不需要Role和CompanyID）
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.UserResponse'
+              type: object
+      summary: 管理员创建用户
+      tags:
+      - 管理员-用户管理
+  /api/v1/admin-auth/users/{id}:
+    delete:
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 管理员删除用户
+      tags:
+      - 管理员-用户管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数（不需要Role和CompanyID）
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 管理员更新用户
+      tags:
+      - 管理员-用户管理
+  /api/v1/admin-auth/water-fertilizer-templates:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.WaterFertilizerTemplateDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除水肥模板
+      tags:
+      - 水肥模板管理
+    get:
+      parameters:
+      - description: 关键词
+        in: query
+        name: keywords
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.WaterFertilizerTemplateResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取水肥模板列表（带分页）
+      tags:
+      - 水肥模板管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.WaterFertilizerTemplateCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.WaterFertilizerTemplateResponse'
+              type: object
+      summary: 创建水肥模板
+      tags:
+      - 水肥模板管理
+  /api/v1/admin-auth/water-fertilizer-templates/{id}:
+    delete:
+      parameters:
+      - description: 模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除水肥模板
+      tags:
+      - 水肥模板管理
+    get:
+      parameters:
+      - description: 模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.WaterFertilizerTemplateResponse'
+              type: object
+      summary: 获取水肥模板详情
+      tags:
+      - 水肥模板管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.WaterFertilizerTemplateUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新水肥模板
+      tags:
+      - 水肥模板管理
+  /api/v1/auth/device-alarms:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 模糊搜索：设备名称、设备ID
+        in: query
+        name: q
+        type: string
+      - description: 企业ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: 设备ID
+        in: query
+        name: deviceId
+        type: string
+      - description: 告警类型
+        in: query
+        name: alarmType
+        type: string
+      - description: 告警级别
+        in: query
+        name: alarmLevel
+        type: integer
+      - description: 是否已处理(0/1)
+        in: query
+        name: isProcessed
+        type: integer
+      - description: 处理人ID
+        in: query
+        name: processedBy
+        type: integer
+      - description: 开始时间
+        in: query
+        name: startTime
+        type: string
+      - description: 结束时间
+        in: query
+        name: endTime
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNum
+        type: integer
+      - default: 10
+        description: 每页大小
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.DeviceAlarmResponse'
+                  type: array
+              type: object
+      summary: 获取设备告警列表
+      tags:
+      - 设备告警
+  /api/v1/auth/device-alarms/batch-process:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 处理请求
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceAlarmBatchProcessRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceAlarmBatchProcessResponse'
+              type: object
+      summary: 批量处理设备告警
+      tags:
+      - 设备告警
+  /api/v1/auth/device-screenshots:
+    get:
+      parameters:
+      - description: 设备序列号(8位纯数字)
+        in: query
+        name: deviceSn
+        type: integer
+      - description: 开始时间(秒)
+        in: query
+        name: startTime
+        type: integer
+      - description: 结束时间(秒)
+        in: query
+        name: endTime
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.DeviceScreenshotResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取截图列表
+      tags:
+      - 设备截图
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceScreenshotCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceScreenshotResponse'
+              type: object
+      summary: 创建截图记录
+      tags:
+      - 设备截图
+  /api/v1/auth/device-screenshots/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除截图
+      tags:
+      - 设备截图
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceScreenshotResponse'
+              type: object
+      summary: 获取截图详情
+      tags:
+      - 设备截图
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceScreenshotUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新截图
+      tags:
+      - 设备截图
+  /api/v1/auth/device-screenshots/batch:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID 列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceScreenshotDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除截图
+      tags:
+      - 设备截图
+  /api/v1/auth/device-types/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.DeviceTypeSimpleResponse'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有设备类型列表
+      tags:
+      - 设备类型管理
+  /api/v1/auth/devices:
+    get:
+      parameters:
+      - description: 综合查询条件
+        in: query
+        name: q
+        type: string
+      - description: 设备编号
+        in: query
+        name: deviceNum
+        type: integer
+      - description: 设备名称
+        in: query
+        name: name
+        type: string
+      - description: 设备类型
+        enum:
+        - sensor
+        - relay
+        - gateway
+        in: query
+        name: deviceType
+        type: string
+      - description: MAC地址
+        in: query
+        name: macAddress
+        type: string
+      - description: SIM卡号
+        in: query
+        name: simCard
+        type: string
+      - description: 是否激活
+        in: query
+        name: isActive
+        type: boolean
+      - description: 状态
+        enum:
+        - active
+        - inactive
+        - fault
+        in: query
+        name: status
+        type: string
+      - description: 读取间隔
+        in: query
+        name: readInterval
+        type: integer
+      - description: 创建者ID
+        in: query
+        name: creatorId
+        type: integer
+      - description: 园区ID
+        in: query
+        name: siteId
+        type: integer
+      - description: 中心经度
+        format: float64
+        in: query
+        name: lng
+        type: number
+      - description: 中心纬度
+        format: float64
+        in: query
+        name: lat
+        type: number
+      - description: 搜索半径(米)
+        format: float64
+        in: query
+        name: radius
+        type: number
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.DeviceResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取设备列表
+      tags:
+      - 设备管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建设备参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceResponse'
+              type: object
+      summary: 创建设备
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/{id}:
+    delete:
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除设备
+      tags:
+      - 设备管理
+    get:
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceResponse'
+              type: object
+      summary: 获取设备详情
+      tags:
+      - 设备管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新设备
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/{id}/basic-info:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 基础信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateBasicInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新设备基础信息
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/{id}/camera-config:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 摄像头配置
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCameraConfigRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新摄像头配置
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/{id}/location:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 地理坐标
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateLocationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新地理坐标
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/{id}/relays:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 继电器配置
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateRelaysRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新继电器配置
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/{id}/sensors:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 传感器配置
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateSensorsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新传感器配置
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/{id}/water-fertilizer-info:
+    delete:
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除水肥信息
+      tags:
+      - 设备管理
+    get:
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.GetWaterFertilizerInfoResponse'
+              type: object
+      summary: 查询水肥信息
+      tags:
+      - 设备管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 水肥信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateWaterFertilizerInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新水肥信息
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/batch:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除设备
+      tags:
+      - 设备管理
+  /api/v1/auth/devices/by-number/{deviceNum}:
+    get:
+      parameters:
+      - description: 设备编号
+        in: path
+        name: deviceNum
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceResponse'
+              type: object
+      summary: 通过设备编号获取详情
+      tags:
+      - 设备管理
+  /api/v1/auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: 用户通过提供有效的 Token 注销登录
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功响应
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: 请求参数无效
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: 注销失败
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 用户注销
+      tags:
+      - Auth
+  /api/v1/auth/miniprogram-menus/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.MiniProgramMenuResponse'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 获取所有小程序功能栏配置（无分页）
+      tags:
+      - 小程序功能栏管理
+  /api/v1/auth/my/device/{deviceSN}/realtime:
+    get:
+      parameters:
+      - description: 设备序列号
+        in: path
+        name: deviceSN
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.DeviceRealTimeData'
+              type: object
+      summary: 获取设备实时数据
+      tags:
+      - 我的管理
+  /api/v1/auth/my/device/relay/records:
+    get:
+      parameters:
+      - description: 设备号
+        in: query
+        name: deviceSN
+        type: integer
+      - description: 通道号(0-31)
+        in: query
+        name: channel
+        type: integer
+      - description: 操作者
+        in: query
+        name: operator
+        type: string
+      - description: 操作状态
+        in: query
+        name: status
+        type: string
+      - description: 开始时间(秒级时间戳)
+        in: query
+        name: startTime
+        type: integer
+      - description: 结束时间(秒级时间戳)
+        in: query
+        name: endTime
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页大小
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.DeviceRelayRecordResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取设备继电器操作记录列表
+      tags:
+      - 我的管理
+  /api/v1/auth/my/device/relay/switch:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 继电器控制参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RelaySwitchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 控制继电器开关状态
+      tags:
+      - 设备控制
+  /api/v1/auth/my/device/sensors/comparison:
+    get:
+      parameters:
+      - description: 设备序列号
+        in: query
+        name: deviceSN
+        required: true
+        type: string
+      - description: '对比类型: day/month'
+        in: query
+        name: type
+        required: true
+        type: string
+      - description: 基准时间戳(毫秒级)
+        in: query
+        name: timestamp
+        required: true
+        type: integer
+      - collectionFormat: multi
+        description: 需要对比的传感器列名
+        in: query
+        items:
+          type: string
+        name: columns
+        required: true
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.SensorComparisonResult'
+              type: object
+      summary: 获取传感器日环比/月环比数据
+      tags:
+      - 我的管理
+  /api/v1/auth/my/device/sensors/history:
+    get:
+      parameters:
+      - description: 设备序列号
+        in: query
+        name: deviceSN
+        required: true
+        type: string
+      - description: 开始时间(秒级时间戳)
+        in: query
+        name: startTime
+        type: integer
+      - description: 结束时间(秒级时间戳)
+        in: query
+        name: endTime
+        type: integer
+      - description: 时间间隔(分钟)
+        in: query
+        name: interval
+        type: integer
+      - collectionFormat: multi
+        description: 需要对比的传感器列名
+        in: query
+        items:
+          type: string
+        name: columns
+        type: array
+      - default: 1
+        description: 当前页码
+        in: query
+        minimum: 1
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页大小
+        in: query
+        maximum: 100
+        minimum: 1
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+              type: object
+      summary: 获取传感器历史数据
+      tags:
+      - 我的管理
+  /api/v1/auth/my/devices:
+    get:
+      parameters:
+      - collectionFormat: multi
+        description: 园区编码数组
+        in: query
+        items:
+          type: string
+        name: siteCode
+        type: array
+      - collectionFormat: multi
+        description: 设备类型数组
+        in: query
+        items:
+          type: string
+        name: deviceType
+        type: array
+      - description: 设备名称模糊搜索
+        in: query
+        name: deviceName
+        type: string
+      - description: 综合查询条件
+        in: query
+        name: q
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页大小
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.MyDeviceResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取我的设备列表
+      tags:
+      - 我的管理
+  /api/v1/auth/my/devices/type-stats:
+    get:
+      parameters:
+      - collectionFormat: multi
+        description: 园区编码数组，为空则查询所有园区
+        in: query
+        items:
+          type: string
+        name: siteCode
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.MyDeviceTypeStatsResponse'
+                  type: array
+              type: object
+      summary: 获取我的设备类型统计
+      tags:
+      - 我的管理
+  /api/v1/auth/my/sites:
+    get:
+      parameters:
+      - description: 园区名称模糊搜索
+        in: query
+        name: siteName
+        type: string
+      - description: 园区编码模糊搜索
+        in: query
+        name: siteCode
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页大小
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.MySiteSimpleResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取我的园区列表
+      tags:
+      - 我的管理
+  /api/v1/auth/oss/sts:
+    get:
+      description: OSS 上传所需的签名和凭证
+      parameters:
+      - description: 文件类型
+        in: query
+        name: fileType
+        required: true
+        type: string
+      - description: 可选子目录
+        in: query
+        name: customSubDir
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.PolicyTokenResponse'
+              type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: 应用版本不存在
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: 内部服务器错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 获取所需的签名和凭证
+      tags:
+      - OSS 管理
+  /api/v1/auth/sites:
+    get:
+      parameters:
+      - description: 综合查询条件
+        in: query
+        name: q
+        type: string
+      - description: 名称
+        in: query
+        name: name
+        type: string
+      - description: 编码
+        in: query
+        name: code
+        type: string
+      - description: 类型
+        in: query
+        name: type
+        type: string
+      - description: 状态
+        in: query
+        name: status
+        type: string
+      - description: 省份
+        in: query
+        name: province
+        type: string
+      - description: 城市
+        in: query
+        name: city
+        type: string
+      - description: 区县
+        in: query
+        name: district
+        type: string
+      - description: 最小经度
+        in: query
+        name: minLng
+        type: number
+      - description: 最大经度
+        in: query
+        name: maxLng
+        type: number
+      - description: 最小纬度
+        in: query
+        name: minLat
+        type: number
+      - description: 最大纬度
+        in: query
+        name: maxLat
+        type: number
+      - description: 设备ID
+        in: query
+        name: deviceId
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.SiteResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取场所列表
+      tags:
+      - 场所管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SiteCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.SiteResponse'
+              type: object
+      summary: 创建场所
+      tags:
+      - 场所管理
+  /api/v1/auth/sites/{id}:
+    delete:
+      parameters:
+      - description: 场所ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除场所
+      tags:
+      - 场所管理
+    get:
+      parameters:
+      - description: 场所ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.SiteResponse'
+              type: object
+      summary: 获取场所详情
+      tags:
+      - 场所管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 场所ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SiteUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新场所
+      tags:
+      - 场所管理
+  /api/v1/auth/sites/{id}/users:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 场所ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 移除用户参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SiteUserRemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 园区批量移除用户
+      tags:
+      - 场所管理
+    get:
+      parameters:
+      - description: 场所ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.SiteUserResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取园区用户列表
+      tags:
+      - 场所管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 场所ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 添加用户参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SiteUserAddRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 园区批量添加用户
+      tags:
+      - 场所管理
+  /api/v1/auth/sites/{id}/users/not-in:
+    get:
+      parameters:
+      - description: 场所ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: pageNumber
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.SiteUserResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取未分配到园区的用户列表
+      tags:
+      - 场所管理
+  /api/v1/auth/sites/batch:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SiteDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除场所
+      tags:
+      - 场所管理
+  /api/v1/auth/sites/devices/assign:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 分配设备参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SiteDeviceAssignRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 园区分配设备
+      tags:
+      - 场所管理
+  /api/v1/auth/sites/devices/remove:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除设备参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SiteDeviceRemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 园区删除设备
+      tags:
+      - 场所管理
+  /api/v1/auth/standard-relays/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.StandardRelayResponse'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 获取所有标准继电器（无分页）
+      tags:
+      - 标准继电器管理
+  /api/v1/auth/standard-sensors/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.StandardSensorResponse'
+                  type: array
+              type: object
+      summary: 获取所有标准传感器（无分页）
+      tags:
+      - 标准传感器管理
+  /api/v1/auth/users:
+    get:
+      parameters:
+      - description: 综合查询条件
+        in: query
+        name: q
+        type: string
+      - description: 用户名
+        in: query
+        name: username
+        type: string
+      - description: 昵称
+        in: query
+        name: nickname
+        type: string
+      - description: 邮箱
+        in: query
+        name: email
+        type: string
+      - description: 手机号
+        in: query
+        name: phone
+        type: string
+      - description: 状态(0:禁用,1:启用)
+        in: query
+        name: status
+        type: integer
+      - description: 性别(male/female/unknown)
+        in: query
+        name: gender
+        type: string
+      - description: 最小年龄
+        in: query
+        name: minAge
+        type: integer
+      - description: 最大年龄
+        in: query
+        name: maxAge
+        type: integer
+      - description: 角色ID
+        in: query
+        name: roleId
+        type: integer
+      - description: 园区ID
+        in: query
+        name: siteId
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.UserResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取用户列表
+      tags:
+      - 用户管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.UserResponse'
+              type: object
+      summary: 创建用户
+      tags:
+      - 用户管理
+  /api/v1/auth/users/{id}:
+    delete:
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 删除用户
+      tags:
+      - 用户管理
+    get:
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.UserResponse'
+              type: object
+      summary: 获取用户详情
+      tags:
+      - 用户管理
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 更新用户
+      tags:
+      - 用户管理
+  /api/v1/auth/users/batch:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除ID列表
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 批量删除用户
+      tags:
+      - 用户管理
+  /api/v1/auth/users/current:
+    get:
+      description: 获取当前登录用户详细信息和企业列表。此接口不校验角色和企业。
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.CurrentUserInfoResponse'
+              type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: 未授权访问
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: 用户不存在
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: 内部服务器错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取当前用户
+      tags:
+      - 用户管理
+  /api/v1/auth/users/current/password:
+    put:
+      consumes:
+      - application/json
+      description: 更新当前登录用户的密码
+      parameters:
+      - description: 密码更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserPasswordUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: 请求参数错误或旧密码不正确
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: 未授权
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: 内部服务器错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新当前用户密码
+      tags:
+      - 用户管理
+  /api/v1/auth/users/current/profile:
+    put:
+      consumes:
+      - application/json
+      description: 更新当前登录用户的个人信息（不包含密码）
+      parameters:
+      - description: 更新参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserProfileUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: 未授权
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "409":
+          description: 冲突（如邮箱/手机号已存在）
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: 内部服务器错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新当前用户个人信息
+      tags:
+      - 用户管理
+  /api/v1/auth/water-fertilizer-templates:
+    get:
+      parameters:
+      - description: 关键词
+        in: query
+        name: keywords
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/dto.PaginationResponse'
+                  - properties:
+                      records:
+                        items:
+                          $ref: '#/definitions/dto.WaterFertilizerTemplateResponse'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取水肥模板列表（带分页）
+      tags:
+      - 水肥模板管理
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.WaterFertilizerTemplateCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.WaterFertilizerTemplateResponse'
+              type: object
+      summary: 创建水肥模板
+      tags:
+      - 水肥模板管理
+  /api/v1/auth/weather:
+    get:
+      parameters:
+      - description: 纬度
+        in: query
+        name: lat
+        required: true
+        type: string
+      - description: 经度
+        in: query
+        name: lon
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.TencentRealtime'
+              type: object
+      summary: 获取天气信息
+      tags:
+      - 天气服务
+  /api/v1/public/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户通过用户名和密码登录系统
+      parameters:
+      - description: 登录请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功响应，包含 JWT Token
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.LoginResponse'
+              type: object
+        "400":
+          description: 请求参数无效
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: 用户名或密码错误
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 用户登录
+      tags:
+      - Auth
+  /api/v1/public/miniprogram/complete-info:
+    post:
+      consumes:
+      - application/json
+      description: 小程序用户注册，必须提供用户信息和手机号。如果存在相同手机号的用户则更新，否则创建新用户
+      parameters:
+      - description: 注册请求参数（必须包含用户信息和手机号）
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.MiniProgramCompleteInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功响应，包含 JWT Token
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.MiniProgramLoginResponse'
+              type: object
+        "400":
+          description: 请求参数无效或未授权用户信息/手机号
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: 注册失败
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 小程序补充用户信息（注册）
+      tags:
+      - Auth
+  /api/v1/public/miniprogram/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户通过微信小程序 code 登录系统
+      parameters:
+      - description: 小程序登录请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.MiniProgramLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功响应，包含 JWT Token
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.MiniProgramLoginResponse'
+              type: object
+        "400":
+          description: 请求参数无效
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: 登录失败
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 小程序登录
+      tags:
+      - Auth
+  /api/v1/public/wechat/callback:
+    get:
+      consumes:
+      - application/json
+      description: 处理微信扫码登录回调，当用户扫码并确认后，微信会重定向到此接口
+      parameters:
+      - description: 微信授权码
+        in: query
+        name: code
+        required: true
+        type: string
+      - description: 状态参数（临时token）
+        in: query
+        name: state
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功响应，重定向到前端页面
+          schema:
+            type: string
+        "400":
+          description: 请求参数无效
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: 处理回调失败
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 微信扫码登录回调
+      tags:
+      - Auth
+  /api/v1/public/wechat/qrcode:
+    get:
+      consumes:
+      - application/json
+      description: 生成微信扫码登录二维码，返回二维码URL和临时token用于轮询查询
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功响应，包含二维码URL和token
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.WechatQRCodeResponse'
+              type: object
+        "500":
+          description: 生成二维码失败
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 生成微信扫码登录二维码
+      tags:
+      - Auth
+  /api/v1/public/wechat/qrcode/status:
+    post:
+      consumes:
+      - application/json
+      description: 轮询查询微信扫码登录状态，返回扫码状态和登录token（如果已确认）
+      parameters:
+      - description: 查询状态请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.WechatQRCodeStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功响应，包含扫码状态
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.WechatQRCodeStatusResponse'
+              type: object
+        "400":
+          description: 请求参数无效
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: 查询状态失败
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: 查询微信扫码状态
+      tags:
+      - Auth
+schemes:
+- http
+- https
+swagger: "2.0"

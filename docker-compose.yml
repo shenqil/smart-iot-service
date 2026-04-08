@@ -1,0 +1,21 @@
+services:
+  smart-iot-admin:
+    image: crpi-14aq4ypr9y9smv5q.cn-hangzhou.personal.cr.aliyuncs.com/fssq/smart-iot-admin:latest
+    container_name: smart-iot-admin
+    restart: unless-stopped
+    ports:
+      - "10088:10088"
+      - "9000:9000"
+      - "9999:9999"
+      - "9898:9898"
+    volumes:
+      - "./configs:/configs"
+      - "./logs:/logs"
+      - "/usr/share/nginx/smart-iot-admin:/deploy"
+    environment:
+      - TZ=Asia/Shanghai
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:10088/ping || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
