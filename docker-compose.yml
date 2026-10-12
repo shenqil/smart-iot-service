@@ -8,6 +8,7 @@ services:
       - "9000:9000"
       - "9999:9999"
       - "9898:9898"
+      - "9998:9998"
     volumes:
       - "./configs:/configs"
       - "./logs:/logs"

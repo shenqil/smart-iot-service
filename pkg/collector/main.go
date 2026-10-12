@@ -7,7 +7,10 @@ import (
 
 	"rbac-admin/internal/cache"
 	"rbac-admin/pkg/collector/core"
-	services "rbac-admin/pkg/collector/services"
+	"rbac-admin/pkg/collector/services/activereport"
+	"rbac-admin/pkg/collector/services/control"
+	"rbac-admin/pkg/collector/services/controlv2"
+	"rbac-admin/pkg/collector/services/iot"
 	"rbac-admin/pkg/collector/singletons"
 	"rbac-admin/pkg/collector/storage"
 	"rbac-admin/pkg/config"
@@ -52,13 +55,14 @@ func NewCollectorApp(
 		EventChanSize: confCollector.ChanSize,
 	}
 
-	// 创建三个服务
-	service1 := services.NewActiveReportService(confCollector.Addr1)
-	service2 := services.NewControlService(confCollector.Addr2)
-	service3 := services.NewIoTService(confCollector.Addr3)
+	// 创建服务
+	service1 := activereport.NewActiveReportService(confCollector.Addr1)
+	service2 := control.NewControlService(confCollector.Addr2)
+	service3 := iot.NewIoTService(confCollector.Addr3)
+	service4 := controlv2.NewControlServiceV2(confCollector.Addr4)
 
 	// 直接创建采集器并注册所有服务
-	coreCollector := core.NewCollectorWithServices(collectorConfig, service1, service2, service3)
+	coreCollector := core.NewCollectorWithServices(collectorConfig, service1, service2, service3, service4)
 
 	return &CollectorApp{
 		influxClient:      influxClient,

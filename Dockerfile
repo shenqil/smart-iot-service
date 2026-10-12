@@ -18,7 +18,7 @@ FROM crpi-14aq4ypr9y9smv5q.cn-hangzhou.personal.cr.aliyuncs.com/fssq/debian:12
 # 从builder阶段复制必要的文件
 COPY --from=builder /gin-admin /gin-admin
 
-EXPOSE 10088 9000 9999 9898
+EXPOSE 10088 9000 9999 9898 9998
 
 # 设置启动命令
 ENTRYPOINT ["/gin-admin"]

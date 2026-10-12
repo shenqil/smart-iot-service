@@ -122,6 +122,7 @@ type CollectorConfig struct {
 	Addr1           string `mapstructure:"Addr1"`
 	Addr2           string `mapstructure:"Addr2"`
 	Addr3           string `mapstructure:"Addr3"`
+	Addr4           string `mapstructure:"Addr4"`
 	KeepaliveMinute int    `mapstructure:"KeepaliveMinute"`
 	RecvBuffer      int    `mapstructure:"RecvBuffer"`
 	SendBuffer      int    `mapstructure:"SendBuffer"`
