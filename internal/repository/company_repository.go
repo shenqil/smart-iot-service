@@ -114,7 +114,8 @@ func (r *CompanyRepository) Update(ctx context.Context, id uint, updates map[str
 func (r *CompanyRepository) Delete(ctx context.Context, id uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id = ? AND deleted_at IS NULL", id).
+		Unscoped().
+		Where("id = ?", id).
 		Delete(&entity.Company{})
 
 	if result.Error != nil {
@@ -132,7 +133,8 @@ func (r *CompanyRepository) Delete(ctx context.Context, id uint) error {
 func (r *CompanyRepository) BatchDelete(ctx context.Context, ids []uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id IN (?) AND deleted_at IS NULL", ids).
+		Unscoped().
+		Where("id IN (?)", ids).
 		Delete(&entity.Company{})
 
 	if result.Error != nil {

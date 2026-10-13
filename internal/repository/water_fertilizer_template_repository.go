@@ -9,8 +9,8 @@ import (
 	"rbac-admin/pkg/contextx"
 	"rbac-admin/pkg/errx"
 
-	"gorm.io/gorm"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 type WaterFertilizerTemplateRepository struct {
@@ -104,7 +104,10 @@ func (r *WaterFertilizerTemplateRepository) Update(ctx context.Context, id uint,
 // Delete 删除记录
 func (r *WaterFertilizerTemplateRepository) Delete(ctx context.Context, id uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
-	result := r.Db.WithContext(ctx).Where("id = ? AND deleted_at IS NULL", id).Delete(&entity.WaterFertilizerTemplate{})
+	result := r.Db.WithContext(ctx).
+		Unscoped().
+		Where("id = ?", id).
+		Delete(&entity.WaterFertilizerTemplate{})
 
 	if result.Error != nil {
 		logger.Error(fmt.Sprintf("删除水肥模板失败: %v", result.Error))
@@ -121,7 +124,8 @@ func (r *WaterFertilizerTemplateRepository) Delete(ctx context.Context, id uint)
 func (r *WaterFertilizerTemplateRepository) BatchDelete(ctx context.Context, ids []uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id IN (?) AND deleted_at IS NULL", ids).
+		Unscoped().
+		Where("id IN (?)", ids).
 		Delete(&entity.WaterFertilizerTemplate{})
 
 	if result.Error != nil {

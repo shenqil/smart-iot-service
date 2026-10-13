@@ -8,8 +8,8 @@ import (
 	"rbac-admin/pkg/contextx"
 	"rbac-admin/pkg/errx"
 
-	"gorm.io/gorm"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 type DeviceScreenshotRepository struct {
@@ -50,7 +50,8 @@ func (r *DeviceScreenshotRepository) Update(ctx context.Context, id uint, update
 func (r *DeviceScreenshotRepository) Delete(ctx context.Context, id uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id = ? AND deleted_at IS NULL", id).
+		Unscoped().
+		Where("id = ?", id).
 		Delete(&entity.DeviceScreenshot{})
 	if result.Error != nil {
 		logger.Error(fmt.Sprintf("删除失败: %v", result.Error))
@@ -66,7 +67,8 @@ func (r *DeviceScreenshotRepository) Delete(ctx context.Context, id uint) error 
 func (r *DeviceScreenshotRepository) BatchDelete(ctx context.Context, ids []uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id IN (?) AND deleted_at IS NULL", ids).
+		Unscoped().
+		Where("id IN (?)", ids).
 		Delete(&entity.DeviceScreenshot{})
 	if result.Error != nil {
 		logger.Error(fmt.Sprintf("批量删除失败: %v", result.Error))

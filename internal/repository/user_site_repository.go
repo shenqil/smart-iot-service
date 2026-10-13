@@ -28,7 +28,10 @@ func (r *UserSiteRepository) BatchCreate(ctx context.Context, userSites []*entit
 }
 
 func (r *UserSiteRepository) BatchDelete(ctx context.Context, userIDs []uint, siteID uint) error {
-	err := r.db.WithContext(ctx).Where("site_id = ? AND user_id IN ?", siteID, userIDs).Delete(&entity.UserSite{}).Error
+	err := r.db.WithContext(ctx).
+		Unscoped().
+		Where("site_id = ? AND user_id IN ?", siteID, userIDs).
+		Delete(&entity.UserSite{}).Error
 	if err != nil {
 		return errx.New(constant.InternalServerError, "批量删除园区用户失败", err)
 	}

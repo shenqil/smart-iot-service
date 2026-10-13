@@ -8,8 +8,8 @@ import (
 	"rbac-admin/pkg/contextx"
 	"rbac-admin/pkg/errx"
 
-	"gorm.io/gorm"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 type StandardRelayRepository struct {
@@ -116,9 +116,10 @@ func (r *StandardRelayRepository) Update(ctx context.Context, id uint, updates m
 func (r *StandardRelayRepository) Delete(ctx context.Context, id uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 
-	// 软删除数据库记录
+	// 硬删除数据库记录
 	result := r.Db.WithContext(ctx).
-		Where("id = ? AND deleted_at IS NULL", id).
+		Unscoped().
+		Where("id = ?", id).
 		Delete(&entity.StandardRelay{})
 
 	if result.Error != nil {
@@ -181,9 +182,10 @@ func (r *StandardRelayRepository) BatchDelete(ctx context.Context, ids []uint) e
 		return errx.New(constant.BadRequest, "ID列表不能为空", nil)
 	}
 
-	// 批量删除数据库记录
+	// 批量硬删除数据库记录
 	result := r.Db.WithContext(ctx).
-		Where("id IN (?) AND deleted_at IS NULL", ids).
+		Unscoped().
+		Where("id IN (?)", ids).
 		Delete(&entity.StandardRelay{})
 
 	if result.Error != nil {

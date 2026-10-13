@@ -128,7 +128,8 @@ func (r *DeviceRepository) Update(ctx context.Context, id uint, updates map[stri
 func (r *DeviceRepository) Delete(ctx context.Context, id uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id = ? AND deleted_at IS NULL", id).
+		Unscoped().
+		Where("id = ?", id).
 		Delete(&entity.Device{})
 
 	if result.Error != nil {
@@ -145,7 +146,8 @@ func (r *DeviceRepository) Delete(ctx context.Context, id uint) error {
 func (r *DeviceRepository) BatchDelete(ctx context.Context, ids []uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id IN (?) AND deleted_at IS NULL", ids).
+		Unscoped().
+		Where("id IN (?)", ids).
 		Delete(&entity.Device{})
 
 	if result.Error != nil {

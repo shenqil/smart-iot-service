@@ -8,8 +8,8 @@ import (
 	"rbac-admin/pkg/errx"
 	"strings"
 
-	"gorm.io/gorm"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 type DeviceTypeRepository struct {
@@ -112,7 +112,10 @@ func (r *DeviceTypeRepository) Delete(ctx context.Context, id uint) error {
 	}
 
 	logger := contextx.GetLoggerFromContext(ctx)
-	result := r.Db.WithContext(ctx).Where("id = ? AND deleted_at IS NULL", id).Delete(&entity.DeviceType{})
+	result := r.Db.WithContext(ctx).
+		Unscoped().
+		Where("id = ?", id).
+		Delete(&entity.DeviceType{})
 	if result.Error != nil {
 		logger.Error(fmt.Sprintf("删除 DeviceType 失败: %v", result.Error))
 		return errx.New(constant.InternalServerError, constant.MsgInternalServerErr, result.Error)
@@ -137,7 +140,10 @@ func (r *DeviceTypeRepository) BatchDelete(ctx context.Context, ids []uint) erro
 	}
 
 	logger := contextx.GetLoggerFromContext(ctx)
-	result := r.Db.WithContext(ctx).Where("id IN (?) AND deleted_at IS NULL", ids).Delete(&entity.DeviceType{})
+	result := r.Db.WithContext(ctx).
+		Unscoped().
+		Where("id IN (?)", ids).
+		Delete(&entity.DeviceType{})
 	if result.Error != nil {
 		logger.Error(fmt.Sprintf("批量删除 DeviceType 失败: %v", result.Error))
 		return errx.New(constant.InternalServerError, constant.MsgInternalServerErr, result.Error)

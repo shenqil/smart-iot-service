@@ -8,8 +8,8 @@ import (
 	"rbac-admin/pkg/contextx"
 	"rbac-admin/pkg/errx"
 
-	"gorm.io/gorm"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 type UserCompanyRepository struct {
@@ -207,6 +207,7 @@ func (r *UserCompanyRepository) Delete(ctx context.Context, userID uint, company
 
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
+		Unscoped().
 		Where("user_id = ? AND company_id = ?", userID, companyID).
 		Delete(&entity.UserCompany{})
 
@@ -230,6 +231,7 @@ func (r *UserCompanyRepository) DeleteByUserID(ctx context.Context, userID uint)
 
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
+		Unscoped().
 		Where("user_id = ?", userID).
 		Delete(&entity.UserCompany{})
 
@@ -249,6 +251,7 @@ func (r *UserCompanyRepository) DeleteByCompanyID(ctx context.Context, companyID
 
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
+		Unscoped().
 		Where("company_id = ?", companyID).
 		Delete(&entity.UserCompany{})
 
@@ -289,7 +292,7 @@ func (r *UserCompanyRepository) BatchDelete(ctx context.Context, pairs []struct 
 		}
 	}
 
-	result := db.Delete(&entity.UserCompany{})
+	result := db.Unscoped().Delete(&entity.UserCompany{})
 	if result.Error != nil {
 		logger.Error(fmt.Sprintf("批量删除用户公司关联失败: %v", result.Error))
 		return errx.New(constant.InternalServerError, "批量删除失败", result.Error)

@@ -8,8 +8,8 @@ import (
 	"rbac-admin/pkg/errx"
 	"time"
 
-	"gorm.io/gorm"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 type DeviceRelayRecordRepository struct {
@@ -138,11 +138,12 @@ func (r *DeviceRelayRecordRepository) List(ctx context.Context, query entity.Dev
 	return records, total, nil
 }
 
-// Delete 删除设备继电器记录（软删除）
+// Delete 删除设备继电器记录（物理删除）
 func (r *DeviceRelayRecordRepository) Delete(ctx context.Context, id uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id = ? AND deleted_at IS NULL", id).
+		Unscoped().
+		Where("id = ?", id).
 		Delete(&entity.DeviceRelayRecord{})
 
 	if result.Error != nil {

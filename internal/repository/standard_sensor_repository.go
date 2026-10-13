@@ -8,8 +8,8 @@ import (
 	"rbac-admin/pkg/contextx"
 	"rbac-admin/pkg/errx"
 
-	"gorm.io/gorm"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 type StandardSensorRepository struct {
@@ -103,7 +103,10 @@ func (r *StandardSensorRepository) Update(ctx context.Context, id uint, updates 
 // Delete 删除记录
 func (r *StandardSensorRepository) Delete(ctx context.Context, id uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
-	result := r.Db.WithContext(ctx).Where("id = ? AND deleted_at IS NULL", id).Delete(&entity.StandardSensor{})
+	result := r.Db.WithContext(ctx).
+		Unscoped().
+		Where("id = ?", id).
+		Delete(&entity.StandardSensor{})
 
 	if result.Error != nil {
 		logger.Error(fmt.Sprintf("删除传感器失败: %v", result.Error))
@@ -120,7 +123,8 @@ func (r *StandardSensorRepository) Delete(ctx context.Context, id uint) error {
 func (r *StandardSensorRepository) BatchDelete(ctx context.Context, ids []uint) error {
 	logger := contextx.GetLoggerFromContext(ctx)
 	result := r.Db.WithContext(ctx).
-		Where("id IN (?) AND deleted_at IS NULL", ids).
+		Unscoped().
+		Where("id IN (?)", ids).
 		Delete(&entity.StandardSensor{})
 
 	if result.Error != nil {
